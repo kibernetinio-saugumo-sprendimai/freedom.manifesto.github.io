@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>SafeStack Canonical Framework</title>
+  <meta name="description" content="Privatus VPN: Laisvės manifestas. Privatumas, kontrolė ir nepriklausomybė be kompromisų." />
+  <meta name="keywords" content="SafeStack, VPN, privatumas, saugumas, manifestas, decentralizacija" />
+  <meta name="author" content="SafeStack Lab" />
+  <meta name="robots" content="index,follow" />
+
+  <meta property="og:title" content="SafeStack Canonical Framework" />
+  <meta property="og:description" content="Tai ne produktas. Tai principas." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://safestack.engineering/" />
+  <meta property="og:image" content="https://safestack.engineering/preview.png" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="SafeStack Canonical Framework" />
+  <meta name="twitter:description" content="Tai ne produktas. Tai principas." />
+  <meta name="twitter:image" content="https://safestack.engineering/preview.png" />
+
+  <link rel="icon" href="favicon.ico" />
+
+  <style>
+    :root {
+      --bg: #030605;
+      --panel: rgba(5, 10, 8, 0.92);
+      --panel-soft: rgba(7, 15, 11, 0.84);
+      --text: #f1f5f1;
+      --muted: #8f9d91;
+      --green: #32ff6a;
+      --green-soft: rgba(50, 255, 106, 0.12);
+      --green-line: rgba(50, 255, 106, 0.34);
+      --line: rgba(255, 255, 255, 0.08);
+      --shadow: 0 22px 70px rgba(0, 0, 0, 0.55);
+      --mono: "JetBrains Mono", "Fira Code", Consolas, monospace;
+      --sans: Inter, Arial, Helvetica, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: var(--mono);
+      background:
+        radial-gradient(circle at 18% 10%, rgba(50, 255, 106, 0.10), transparent 24%),
+        radial-gradient(circle at 82% 12%, rgba(50, 255, 106, 0.07), transparent 20%),
+        linear-gradient(180deg, #020403 0%, #050a07 52%, #020403 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(50, 255, 106, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(50, 255, 106, 0.035) 1px, transparent 1px);
+      background-size: 36px 36px;
+      opacity: 0.45;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,0.6), transparent 86%);
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,0.018) 0px,
+        rgba(255,255,255,0.018) 1px,
+        transparent 2px,
+        transparent 5px
+      );
+      opacity: 0.28;
+    }
+
+    a { color: var(--green); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .page {
+      width: min(1480px, calc(100% - 44px));
+      margin: 28px auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 400px;
+      gap: 28px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .main-panel,
+    .side-panel {
+      border: 1px solid var(--green-line);
+      background: linear-gradient(180deg, rgba(4, 8, 6, 0.94), rgba(2, 5, 4, 0.96));
+      box-shadow: var(--shadow);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .topbar {
+      min-height: 78px;
+      padding: 0 34px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(0,0,0,0.18);
+    }
+
+    .brand {
+      color: var(--green);
+      font-weight: 700;
+      font-size: 1.45rem;
+      letter-spacing: 0.04em;
+    }
+
+    .brand::before { content: ">_ "; }
+
+    .top-meta {
+      display: flex;
+      gap: 34px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      white-space: nowrap;
+    }
+
+    .top-meta .online {
+      color: var(--green);
+      animation: onlinePulse 1.45s ease-in-out infinite;
+      text-shadow: 0 0 10px rgba(50,255,106,0.45);
+    }
+    .top-meta .online::before { content: "> "; }
+
+    .hero {
+      padding: 72px 58px 68px;
+    }
+
+    .headline {
+      margin: 0;
+      max-width: 860px;
+      font-size: clamp(2.3rem, 5vw, 4.25rem);
+      line-height: 1.22;
+      letter-spacing: -0.045em;
+      font-weight: 700;
+      animation: softGlitch 4.8s infinite;
+      text-shadow: 0 0 18px rgba(255,255,255,0.08);
+    }
+
+    .headline::before {
+      content: ">";
+      color: var(--green);
+      margin-right: 24px;
+    }
+
+    .lead {
+      margin: 44px 0 0 70px;
+      max-width: 760px;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 2vw, 1.55rem);
+      line-height: 1.65;
+    }
+
+    .lead .signal {
+      color: var(--green);
+      display: block;
+      margin: 42px 0 6px;
+    }
+
+    .divider {
+      height: 1px;
+      margin: 58px 0 42px 70px;
+      max-width: 900px;
+      background: linear-gradient(90deg, transparent, rgba(50,255,106,0.42), transparent);
+    }
+
+    .command-list {
+      margin: 0 0 0 70px;
+      padding: 0;
+      list-style: none;
+      color: var(--muted);
+      font-size: clamp(1rem, 1.65vw, 1.35rem);
+    }
+
+    .command-list li {
+      margin: 10px 0;
+    }
+
+    .command-list li::before {
+      content: "> ";
+      color: var(--green);
+    }
+
+    .command-list strong {
+      color: var(--green);
+      font-weight: 500;
+    }
+
+    .statement {
+      margin: 46px 0 0 70px;
+      width: min(640px, 100% - 70px);
+      padding: 24px 30px;
+      border: 1px solid var(--green-line);
+      border-radius: 10px;
+      background: rgba(5, 12, 8, 0.72);
+      color: rgba(50, 255, 106, 0.75);
+      font-size: clamp(1.05rem, 1.7vw, 1.35rem);
+      line-height: 1.65;
+    }
+
+    .statement::before { content: "> "; color: var(--green); }
+
+    .side-panel {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .side-section {
+      padding: 36px 30px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .side-section:last-child { border-bottom: 0; }
+
+    .side-title {
+      margin: 0 0 22px;
+      color: var(--green);
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-weight: 700;
+    }
+
+    .side-title::before { content: "/ "; }
+
+    .side-subline {
+      margin: -8px 0 18px;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .side-subline::before { content: "> "; color: var(--green); }
+
+    .download-card {
+      padding: 20px;
+      border: 1px solid var(--green-line);
+      border-radius: 12px;
+      background: rgba(4, 9, 6, 0.8);
+    }
+
+    .file-row {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .file-icon {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      color: var(--green);
+      border: 1px solid var(--green-line);
+      border-radius: 8px;
+      font-size: 1.4rem;
+    }
+
+    .file-name {
+      color: var(--text);
+      font-size: 1rem;
+      margin-bottom: 2px;
+    }
+
+    .file-type {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .download-btn {
+      width: 100%;
+      min-height: 56px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      border: 1px solid var(--green);
+      border-radius: 10px;
+      color: var(--green);
+      background: rgba(50, 255, 106, 0.05);
+      font-weight: 700;
+      font-size: 1.05rem;
+      transition: transform 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
+    }
+
+    .download-btn:hover {
+      text-decoration: none;
+      transform: translateY(-1px);
+      background: rgba(50, 255, 106, 0.10);
+      box-shadow: 0 0 24px rgba(50,255,106,0.14);
+    }
+
+    .terminal-box {
+      padding: 20px;
+      border: 1px solid var(--green-line);
+      border-radius: 12px;
+      background: rgba(1, 5, 3, 0.78);
+      color: var(--text);
+      line-height: 1.75;
+      word-break: break-word;
+    }
+
+    .terminal-box .green { color: var(--green); }
+
+    .qr-box {
+      display: inline-block;
+      padding: 16px;
+      border: 1px solid rgba(50,255,106,0.28);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.03);
+      position: relative;
+    }
+
+    .qr-box::before,
+    .qr-box::after {
+      content: "";
+      position: absolute;
+      width: 42px;
+      height: 42px;
+      border-color: var(--green);
+      border-style: solid;
+      pointer-events: none;
+    }
+
+    .qr-box::before {
+      top: -1px;
+      left: -1px;
+      border-width: 2px 0 0 2px;
+    }
+
+    .qr-box::after {
+      right: -1px;
+      bottom: -1px;
+      border-width: 0 2px 2px 0;
+    }
+
+    .qr-box img {
+      display: block;
+      width: 220px;
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+      background: #fff;
+    }
+
+    .note {
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+      line-height: 1.6;
+    }
+
+    .cookie-banner {
+      position: fixed;
+      left: 20px;
+      right: 20px;
+      bottom: 20px;
+      z-index: 20;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 16px;
+      border: 1px solid rgba(50,255,106,0.22);
+      border-radius: 12px;
+      background: rgba(2, 6, 4, 0.94);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .cookie-banner p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .cookie-actions {
+      display: flex;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .cookie-btn {
+      min-height: 38px;
+      padding: 0 14px;
+      border-radius: 8px;
+      border: 1px solid rgba(50,255,106,0.28);
+      background: rgba(50,255,106,0.06);
+      color: var(--text);
+      cursor: pointer;
+      font-family: var(--mono);
+    }
+
+    .cookie-accept {
+      background: var(--green);
+      color: #031006;
+      font-weight: 700;
+    }
+
+    @keyframes onlinePulse {
+      0%, 100% { opacity: 1; }
+      45% { opacity: 0.35; }
+      55% { opacity: 0.75; }
+    }
+
+    @keyframes softGlitch {
+      0%, 92%, 100% { transform: translate(0, 0); filter: none; }
+      93% { transform: translate(1px, -1px); filter: contrast(1.08); }
+      94% { transform: translate(-1px, 1px); }
+      95% { transform: translate(1px, 0); }
+      96% { transform: translate(0, 0); filter: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .top-meta .online,
+      .headline {
+        animation: none;
+      }
+    }
+
+    @media (max-width: 1050px) {
+      .page {
+        grid-template-columns: 1fr;
+      }
+
+      .side-panel {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .side-section {
+        border-bottom: 0;
+        border-right: 1px solid var(--line);
+      }
+
+      .side-section:last-child { border-right: 0; }
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        width: min(100% - 24px, 1480px);
+        margin: 12px auto;
+      }
+
+      .topbar {
+        padding: 18px 20px;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .top-meta {
+        gap: 14px;
+        flex-wrap: wrap;
+        font-size: 0.85rem;
+      }
+
+      .hero {
+        padding: 44px 24px;
+      }
+
+      .lead,
+      .divider,
+      .command-list,
+      .statement {
+        margin-left: 0;
+      }
+
+      .statement {
+        width: 100%;
+      }
+
+      .side-panel {
+        display: block;
+      }
+
+      .side-section {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .cookie-banner {
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .cookie-actions {
+        width: 100%;
+      }
+
+      .cookie-btn {
+        flex: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <main class="main-panel">
+      <div class="topbar">
+        <div class="brand">SAFESTACK</div>
+        <div class="top-meta">
+          <span>privatumas. laisvė. kontrolė.</span>
+          <span class="online">online</span>
+        </div>
+      </div>
+
+      <section class="hero">
+        <h1 class="headline">Laisvė prasideda ten,<br>kur prasideda privatumas.</h1>
+
+        <div class="lead">
+          <p>Informacija be kontrolės yra grandinė.<br>Privatumas be veikimo yra iliuzija.</p>
+          <p><span class="signal">Mes nešaukiame. Mes kuriame.</span>Technologiją. Tyliai. Tiems, kurie supranta.</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <ul class="command-list" aria-label="SafeStack principai">
+          <li><strong>misija:</strong> skaitmeninė laisvė</li>
+          <li><strong>principai:</strong> privatumas be kompromisų</li>
+          <li><strong>technologija:</strong> atvira, saugi, nepriklausoma</li>
+          <li><strong>tikslas:</strong> žmonės prieš sistemas</li>
+        </ul>
+
+        <div class="statement">mes nekuriame produktų.<br>&nbsp;&nbsp;mes kuriame kryptį.</div>
+      </section>
+    </main>
+
+    <aside class="side-panel">
+      <section class="side-section">
+        <h2 class="side-title">Atsisiųsti</h2>
+        <p class="side-subline">manifestą (PDF)</p>
+        <div class="download-card">
+          <div class="file-row">
+            <div class="file-icon" aria-hidden="true">□</div>
+            <div>
+              <div class="file-name">Laisvės VPN Manifestas</div>
+              <div class="file-type">PDF dokumentas</div>
+            </div>
+          </div>
+          <a class="download-btn" href="./Laisvės_VPN_Manifestas.pdf" download>Atsisiųsti PDF ↓</a>
+        </div>
+      </section>
+
+      <section class="side-section">
+        <h2 class="side-title">Prisijunk</h2>
+        <p class="side-subline">telegram</p>
+        <div class="terminal-box">
+          <span class="green">&gt;</span> connect://safestack<br>
+          <span class="green">&gt;</span> channel: <span class="green">telegram</span><br>
+          <span class="green">&gt;</span> endpoint:<br>
+          <a href="https://t.me/SafeStackVPNBot" target="_blank" rel="noopener noreferrer">t.me/SafeStackVPNBot</a>
+        </div>
+        <p class="note">tiesioginis kanalas. be triukšmo.</p>
+      </section>
+
+      <section class="side-section">
+        <h2 class="side-title">QR kodas</h2>
+        <p class="side-subline">nuskaityk ir prisijunk</p>
+        <div class="qr-box">
+          <img src="./qrcode_safestack.host.png" alt="SafeStack Telegram QR kodas" />
+        </div>
+      </section>
+    </aside>
+  </div>
+
+  <div class="cookie-banner" id="cookieBanner" role="dialog" aria-live="polite" aria-label="Slapukų pranešimas">
+    <p>Ši svetainė naudoja tik minimalius funkcinius slapukus, reikalingus slapukų pranešimo pasirinkimui išsaugoti.</p>
+    <div class="cookie-actions">
+      <button class="cookie-btn" type="button" id="cookieDecline">Uždaryti</button>
+      <button class="cookie-btn cookie-accept" type="button" id="cookieAccept">Supratau</button>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const key = 'safestack_cookie_notice_ack';
+      const banner = document.getElementById('cookieBanner');
+      const accept = document.getElementById('cookieAccept');
+      const decline = document.getElementById('cookieDecline');
+
+      if (!localStorage.getItem(key)) {
+        banner.style.display = 'flex';
+      }
+
+      function closeBanner() {
+        localStorage.setItem(key, '1');
+        banner.style.display = 'none';
+      }
+
+      accept.addEventListener('click', closeBanner);
+      decline.addEventListener('click', closeBanner);
+    })();
+  </script>
+</body>
+</html>
