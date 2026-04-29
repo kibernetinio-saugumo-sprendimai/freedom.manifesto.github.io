@@ -85,3 +85,17 @@ It enforces:
 
 > Privacy is not a feature.  
 > It is a boundary.
+
+## Verification
+
+1. Import public key:
+
+gpg --import PUBLIC_KEY.asc
+
+2. Verify signature:
+
+gpg --verify GENESIS_HASH.txt.sig GENESIS_HASH.txt
+
+3. Verify file hashes:
+
+compare with HASH_REGISTRY.json
