@@ -61,7 +61,7 @@ Nothing more.
 
 > connect://safestack  
 > channel: telegram  
-> endpoint: https://t.me/SafeStackVPNBot  
+> endpoint: https://t.me/@safestack_bot  
 
 ---
 
