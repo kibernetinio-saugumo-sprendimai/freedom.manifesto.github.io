@@ -99,3 +99,13 @@ gpg --verify GENESIS_HASH.txt.sig GENESIS_HASH.txt
 3. Verify file hashes:
 
 compare with HASH_REGISTRY.json
+
+---
+
+## Ecosystem Links
+
+- **Official Portfolio & Telemetry:** [safestack.engineering](https://safestack.engineering)
+- **Repository & Architecture Map:** [safestack-repo-map](https://github.com/kibernetinio-saugumo-sprendimai/safestack-repo-map)
+- **Public Key Registry:** [safestack-project-public-keys](https://github.com/kibernetinio-saugumo-sprendimai/safestack-project-public-keys)
+- **Validation Registry:** [safestack-validation-registry](https://github.com/kibernetinio-saugumo-sprendimai/safestack-validation-registry)
+
